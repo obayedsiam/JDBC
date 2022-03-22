@@ -1,7 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DriverClass {
 
@@ -9,36 +6,59 @@ public class DriverClass {
 
         try {
             //Load the driver
-          //  Class.forName("com.mysql.jdbc.Driver");
+            //  Class.forName("com.mysql.jdbc.Driver");
 
             // Create Connection
             String url = "jdbc:mysql://localhost:3306/sonydb";
             String username = "root";
             String password = "";
-            Connection con = DriverManager.getConnection(url, username, password);
+            Connection connection = DriverManager.getConnection(url, username, password);
 
-            if (con.isClosed()) {
+            if (connection.isClosed()) {
                 System.out.println("Connection is closed");
             } else {
                 System.out.println("Connection created");
 
-                String query = "SELECT call_status FROM tv_details WHERE id = 20";
 
-                Statement st = con.createStatement();
+                // Create Statement with Query
+                String query = "SELECT call_status FROM tv_details WHERE id = 20";
+                Statement st = connection.createStatement();
                 ResultSet set = st.executeQuery(query);
 
-                while(set.next()){
+                while (set.next()) {
                     String callStatus = set.getString("call_status");
                     System.out.println(callStatus);
                 }
 
-                con.close();
+                //Create Table
+
+//                String createTable = "CREATE TABLE SAMPLE( id int(20) primary key auto_increment, name varchar(255) not null)";
+//                Statement st2 = con.createStatement();
+//                st.executeUpdate(createTable);
+//                System.out.println("Table created");
+
+
+                //Create Prepared Statement with Query
+
+                String q2 = "insert into SAMPLE(name) values(?)";
+
+                PreparedStatement preparedStatement = connection.prepareStatement(q2);
+                preparedStatement.setString(1, "Rahim");
+                preparedStatement.executeUpdate();
+                System.out.println("Inserted....");
+
+
+                String createTable2 = "CREATE TABLE IMAGE( id int(20) primary key auto_increment, img  blob)";
+                st.executeUpdate(createTable2);
+                System.out.println("Table created");
+                connection.close();
+
+
 
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
 
     }
