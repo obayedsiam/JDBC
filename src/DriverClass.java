@@ -1,3 +1,4 @@
+import java.io.FileInputStream;
 import java.sql.*;
 
 public class DriverClass {
@@ -43,14 +44,25 @@ public class DriverClass {
                 String q2 = "insert into SAMPLE(name) values(?)";
 
                 PreparedStatement preparedStatement = connection.prepareStatement(q2);
-                preparedStatement.setString(1, "Rahim");
-                preparedStatement.executeUpdate();
-                System.out.println("Inserted....");
+//                preparedStatement.setString(1, "Rahim");
+//                preparedStatement.executeUpdate();
+//                System.out.println("Inserted....");
 
 
-                String createTable2 = "CREATE TABLE IMAGE( id int(20) primary key auto_increment, img  blob)";
-                st.executeUpdate(createTable2);
+     //           String createTable2 = "CREATE TABLE IMAGE( id int(20) primary key auto_increment, img  blob)";
+       //         st.executeUpdate(createTable2);
                 System.out.println("Table created");
+
+                String q3 = "insert into IMAGE(img) values(?)";
+
+                PreparedStatement preparedStatement2 = connection.prepareStatement(q3);
+
+                FileInputStream fis = new FileInputStream("C:\\Users\\EATL\\Desktop\\download.jpg");
+
+                preparedStatement2.setBlob(1,fis, fis.available());
+
+                preparedStatement2.executeUpdate();
+
                 connection.close();
 
 
