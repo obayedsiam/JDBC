@@ -22,13 +22,13 @@ public class DriverClass {
 
 
                 // Create Statement with Query
-                String query = "SELECT call_status FROM tv_details WHERE id = 20";
+                String query = "SELECT * FROM tv_details";
                 Statement st = connection.createStatement();
                 ResultSet set = st.executeQuery(query);
 
                 while (set.next()) {
-                    String callStatus = set.getString("call_status");
-                    System.out.println(callStatus);
+                    String output = set.getString("call_status");
+                    System.out.println(output);
                 }
 
                 //Create Table
