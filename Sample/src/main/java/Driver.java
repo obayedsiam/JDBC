@@ -1,2 +1,7 @@
-package PACKAGE_NAME;public class Driver {
+public class Driver {
+    private Car car;
+
+    Driver(Car car){
+        this.car = car;
+    }
 }

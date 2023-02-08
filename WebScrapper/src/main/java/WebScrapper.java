@@ -1,17 +1,36 @@
-package com.dshe.nongovt;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.kafka.annotation.EnableKafka;
+import java.io.IOException;
 
-@SpringBootApplication
-@EnableKafka
-@EnableFeignClients
-public class DsheNonGovtServiceApplication {
+public class WebScrapper {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DsheNonGovtServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        System.out.println("Hello");
+
+        WebClient webClient = new WebClient(BrowserVersion.CHROME);
+
+        try {
+
+            webClient.getOptions().setCssEnabled(false);
+            webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+            webClient.getOptions().setThrowExceptionOnScriptError(false);
+            webClient.getOptions().setPrintContentOnFailingStatusCode(false);
+
+            HtmlPage page = webClient.getPage("https://foodnetwork.co.uk/italian-family-dinners/");
+
+
+            String title = page.getTitleText();
+            System.out.println("Page Title: " + title);
+
+            webClient.getCurrentWindow().getJobManager().removeAllJobs();
+            webClient.close();
+            // recipesFile.close();
+            System.out.println(page.getPage());
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e);
+        }
+    }
 
 }

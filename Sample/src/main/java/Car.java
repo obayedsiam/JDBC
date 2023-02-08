@@ -1,2 +1,3 @@
-package PACKAGE_NAME;public interface Car {
+public interface Car{
+    void printName();
 }
